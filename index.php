@@ -4,7 +4,7 @@ require_once __DIR__ . '/fonctions.php';
 
 use Symfony\Component\Asset\Package;
 use Symfony\Component\Asset\VersionStrategy\JsonManifestVersionStrategy;
-
+header('Content-Type: text/html; charset=UTF-8');
 
 $package = new Package(new JsonManifestVersionStrategy(__DIR__.'/public/build/manifest.json'));
 
@@ -20,14 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validation
     if (!$nom || !$email || !$objet || !$message) {
-        $error = "Tous les champs sont obligatoires.";
+        $error = "All fields are mendatory";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = "L'adresse e-mail est invalide.";
+        $error = "Email address is bad";
     } elseif (
         preg_match('/[\r\n]/', $email) ||
         preg_match('/[\r\n]/', $objet)
     ) {
-        $error = "Caractères non autorisés.";
+        $error = "Wrong choice of letters";
     } else {
 
         $destinataire = "paul.gilbert@outlook.fr";
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ";
 
         $headers = [
-            "From" => "contact@ton-domaine.fr",
+            "From" => "gipa9644@gipa9644.odns.fr",
             "Reply-To" => $email,
             "Content-Type" => "text/plain; charset=UTF-8",
             "X-Mailer" => "PHP/" . phpversion()
@@ -58,15 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $headers
         );
 
-        $archive = sauvegarderMail(
-            $nom,
-            $email,
-            $objet,
-            $message
-        );
-
         if (!$success) {
-            $error = "Une erreur est survenue lors de l'envoi.";
+            $error = "There was an error";
         }
     }
 
@@ -225,30 +218,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </section>
                   
                     <section id="contact">
-                        <h3>Me contacter</h3>
+                        <h3>Write to me.</h3>
                         <form method="POST">
 
                             <?php if ($success): ?>
-                                <p class="success">Votre message a bien été envoyé !</p>
+                                <p class="success">Your message has been sent.</p>
                             <?php endif; ?>
 
                             <?php if ($error): ?>
                                 <p class="error"><?= htmlspecialchars($error) ?></p>
                             <?php endif; ?>
 
-                            <label>Nom et prénom</label>
+                            <label>Name and surname</label>
                             <input type="text" name="nom" required>
 
-                            <label>Votre adresse e-mail</label>
+                            <label>Email address</label>
                             <input type="email" name="email" required>
 
-                            <label>Objet</label>
+                            <label>Object</label>
                             <input type="text" name="objet" required>
 
-                            <label>Votre message</label>
+                            <label>Your message</label>
                             <textarea name="message" required></textarea>
 
-                            <button type="submit">Envoyer le message</button>
+                            <button type="submit">Send.</button>
 
                         </form>
                     </section>
