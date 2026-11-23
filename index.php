@@ -1,0 +1,263 @@
+<?php
+require __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/fonctions.php';
+
+use Symfony\Component\Asset\Package;
+use Symfony\Component\Asset\VersionStrategy\JsonManifestVersionStrategy;
+
+
+$package = new Package(new JsonManifestVersionStrategy(__DIR__.'/public/build/manifest.json'));
+
+$success = false;
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $nom = trim($_POST['nom'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $objet = trim($_POST['objet'] ?? '');
+    $message = trim($_POST['message'] ?? '');
+
+    // Validation
+    if (!$nom || !$email || !$objet || !$message) {
+        $error = "Tous les champs sont obligatoires.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "L'adresse e-mail est invalide.";
+    } elseif (
+        preg_match('/[\r\n]/', $email) ||
+        preg_match('/[\r\n]/', $objet)
+    ) {
+        $error = "Caractères non autorisés.";
+    } else {
+
+        $destinataire = "paul.gilbert@outlook.fr";
+
+        $sujet = "Contact site web : " . $objet;
+
+        $corps = "
+        Nouveau message depuis le site web.
+
+        Nom : $nom
+        Email : $email
+
+        Message :
+        $message
+        ";
+
+        $headers = [
+            "From" => "contact@ton-domaine.fr",
+            "Reply-To" => $email,
+            "Content-Type" => "text/plain; charset=UTF-8",
+            "X-Mailer" => "PHP/" . phpversion()
+        ];
+
+        $success = mail(
+            $destinataire,
+            $sujet,
+            $corps,
+            $headers
+        );
+
+        $archive = sauvegarderMail(
+            $nom,
+            $email,
+            $objet,
+            $message
+        );
+
+        if (!$success) {
+            $error = "Une erreur est survenue lors de l'envoi.";
+        }
+    }
+
+
+}
+
+?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Web passion</title>
+        <!-- <link rel="icon" href=""> -->
+        <link rel="stylesheet" type="text/css" href=<?php echo $package->getUrl('public/build/app.css')?> >
+        
+        <script src=<?php echo $package->getUrl('public/build/runtime.js')?> defer></script>
+        <script src=<?php echo $package->getUrl('public/build/app.js')?> defer></script>
+    </head>
+
+    <body>
+        
+        <header>
+            <h1>Digital Factory</h1>
+            <img class="bandeau-haut" src=<?php echo $package->getUrl('public/build/images/Electric_Blue_Data_Track2.png')?> alt="bandeau-data">
+            <div class="h2-header">
+            <h2>La passion du développement.</h2></div>
+        </header>
+        
+        
+        <main>
+            <div class="nav-group">
+                <nav> 
+                    <ul>
+                        <li><a href="#un-mot-sur-moi" id="">One word about me</a></li>
+                        <li><a href="#mes-references">Some of my projects</a></li>
+                        <li><a href="#some-pictures-projects">Some screens</a></li>
+                        <li><a href="#technologies">Technologies I use</a></li>
+                        
+                        <!-- <li><a href="#ce-que-je-dis-sur-mes-services">What do I propose</a> 
+                            <ul>
+                                <li>One page website</li>
+                                <li>Advice</li>
+                                <li>Symfony website</li>
+                                <li>Drupal website</li>
+                                <li>Wordpress website</li>
+                            </ul>
+                        </li> -->
+                        <li><a href="#contact">Contact details</a></li>
+                    </ul>
+                </nav>
+                <div class="progress-container">
+                    <div id="myBar" class="progress-bar"></div>
+                </div>
+            </div>
+
+
+            <div class="center">
+                <div class="largeur-700">
+                    <section id="un-mot-sur-moi">
+                        <h3>One word about me:</h3>
+                            <p>I Was graduated as architect in 2012, and worked in some offices well knowed.
+                            In 2019, as my experiences in housing developpment were poored, I decided
+                            to give my profile a more technical dimension and was student at Universite
+                            Paul Sabatier in computer technology. Since, I was developper at Humans connexion,
+                            during one year, and engineer at Inrae during three years.</p>
+
+                            <p>I focus on the developpment of websites with frameworks, like
+                            symfony wordpress and drupal. My experience at inrae was interesting,
+                            since she took a more independant dimension, like proposing initiatives
+                            for the network. </p>
+
+                            <p>I have developped many sites with symfony 6.4. And always participated to their deployment,
+                            if not deploying them. I have at humans connexion, begun to implicate myself into tasks of
+                            maintenance, like handling errors registered with google tools. At inrae, i have confirmed my
+                            faculties of a more technical computer scientist. </p>
+
+                            <p>These experiences give me an accurate profile of fullstack developper, 
+                            and the hability to work on my own. Since I have practiced different sides of web 
+                            developpment practices.</p>
+
+                    </section>
+                    <!-- slider -->
+                    <section id="mes-references">
+                        <h3>Some of my projects</h3>
+                        <ul>
+                            <li>Mask subnet calculator</li>
+                                <p>At humans connexion, I develloped using javascript a subnet calculator.</p>
+                            <li>Intranet of humans connexion</li>
+                                <p>At humans connexion, I also develloped an intranet. His functions were 
+                                    showing of several links used by employees. Hability to make and submit surveys.
+                                    Showing birthdays.  
+                                </p>
+                            <li>Showcase websites</li>
+                                <ul>
+                                    <li>Sortie de crise (wordpress)</li>
+                                    <li>Antiphona (wordpress)</li>
+                                        <p>Including an event manager. Made with ajax pagination.</p>
+                                    <li>INRAE ODR (drupal)</li>
+                                        <p>The website has features of content management</p>
+                                </ul>
+                            <li>INRAE ODR web platform to handle demands of researchers</li>
+                                <p>ODR researchers, can follow the statement of a demand, including commenting,
+                                    submitting answers, a researching engine and statitics.</p>
+                            <li>INRAE ODR web platform to publish data about crops</li>
+                                <p>In order to publish data about the kinds of crops that are settled on land,
+                                    I made a tool to present the numbers.
+                                </p>
+                            <li>Website Atlas of plans</li>
+                                <p>I extended and refactored, the original code of the game. And maintained the website</p>  
+                            <li>Preeesents.fr</li>
+                                <p>I developped a platform to interact about wishes for christmas.</p>      
+                        </ul>
+                    </section>
+                </div>
+            </div>
+
+            <div class="container">
+                <img class="image-milieu" src=<?php echo $package->getUrl('public/build/images/cobalt2.png')?> alt="bandeau-data">
+                <div id="bar-mouvante" class="mybar2"></div>
+            </div>
+            
+            <div class="center padding">
+                <!-- slider -->  
+                <section id="some-pictures-projects">
+                    <h3>Some pictures of my projects</h3>
+                    <div  class="scroll-container">
+                        <div class="slide"><img src="<?php echo $package->getUrl('public/build/images/1.png')?>" alt=""></div>
+                        <div class="slide"><img src="<?php echo $package->getUrl('public/build/images/2.png')?>" alt=""></div>
+                        <div class="slide"><img src="<?php echo $package->getUrl('public/build/images/3.png')?>" alt=""></div>
+                        <div class="slide"><img src="<?php echo $package->getUrl('public/build/images/4.png')?>" alt=""></div>
+                        <div class="slide"><img src="<?php echo $package->getUrl('public/build/images/6.png')?>" alt=""></div>
+                        <div class="slide"><img src="<?php echo $package->getUrl('public/build/images/7.png')?>" alt=""></div>
+                        <div class="slide"><img src="<?php echo $package->getUrl('public/build/images/8.png')?>" alt=""></div>
+                        <div class="slide"><img src="<?php echo $package->getUrl('public/build/images/9.png')?>" alt=""></div>
+                        <div class="slide"><img src="<?php echo $package->getUrl('public/build/images/10.png')?>" alt=""></div>
+                        <div class="slide"><img src="<?php echo $package->getUrl('public/build/images/11.png')?>" alt=""></div>
+                        <div class="slide"><img src="<?php echo $package->getUrl('public/build/images/12.png')?>" alt=""></div>
+                        <div class="slide"><img src="<?php echo $package->getUrl('public/build/images/13.png')?>" alt=""></div>
+                    </div>
+                </section>
+            </div>
+            
+            <div class="center">
+                <div class="largeur-700">
+                   <section id="technologies">
+                        <h3>Technology I use</h3>
+                        <ul>
+                            <li>Html5, Sass, SCSS, Css</li>
+                            <li>Wordpress, Drupal, Symfony, Django</li>
+                            <li>PostgresSql, Mysql</li>
+                            <li>Docker, Git</li>
+                            <li>O2switch</li>
+                        </ul>
+                    </section>
+                  
+                    <section id="contact">
+                        <h3>Me contacter</h3>
+                        <form method="POST">
+
+                            <?php if ($success): ?>
+                                <p class="success">Votre message a bien été envoyé !</p>
+                            <?php endif; ?>
+
+                            <?php if ($error): ?>
+                                <p class="error"><?= htmlspecialchars($error) ?></p>
+                            <?php endif; ?>
+
+                            <label>Nom et prénom</label>
+                            <input type="text" name="nom" required>
+
+                            <label>Votre adresse e-mail</label>
+                            <input type="email" name="email" required>
+
+                            <label>Objet</label>
+                            <input type="text" name="objet" required>
+
+                            <label>Votre message</label>
+                            <textarea name="message" required></textarea>
+
+                            <button type="submit">Envoyer le message</button>
+
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </main>
+        <footer>
+
+        </footer>
+    </body>
+
+</html>

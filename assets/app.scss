@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&family=Commissioner:wght@100..900&family=Faster+One&display=swap');
+
+/* header{
+    position: relative;
+} */
+
+.padding{
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+section{
+    font-family: "Commissioner";
+}
+
+header{
+    aspect-ratio: 4.5;
+    display: grid;
+    grid-template-columns: repeat(10, 10%);
+    grid-template-rows: 20% 20% 20% 20% 20%;
+}
+
+header > h1{
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 2;
+    grid-column-end: 7;
+    height: auto;
+}
+
+header > .h2-header{
+    grid-row-start: 5;
+    grid-row-end: 6;
+    grid-column-start: 9;
+    grid-column-end: 11;
+    height: auto;
+}
+
+h1{
+    font-family: 'Faster One', system-ui;
+    color: rgb(253, 0, 0);
+    font-size: 50px;
+    margin: 0px;
+}
+
+h2{
+    font-family: "Archivo Narrow", sans-serif;
+    font-size: 20px;
+    margin: 0px;
+   background-color:rgb(0,20,253);
+   color: white;
+   padding: 0px 0px;
+}
+
+
+header > .bandeau-haut{
+    z-index: -1;
+    grid-row-start: 1;
+    grid-row-end: 6;
+    grid-column-start: 1;
+    grid-column-end: 11;
+    width:100%;
+}
+
+.image-milieu{
+    width: 80%;
+    z-index: -1;
+    top: -161px;
+    padding-top: 200px;
+}
+
+
+
+h3{
+    font-family: "Archivo Narrow", sans-serif;
+    color: rgb(0,20,253);
+}
+
+header > .nav-group.scrolled{
+    position:fixed; 
+    top: -16px;
+}
+
+nav{
+    font-family: "Archivo Narrow", sans-serif;
+    background-color: rgb(0,20,253);
+    color: white;
+}
+
+.nav-group{
+    position: sticky;
+    top: 0px;
+}
+
+.progress-container {
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  top: 27px;
+}
+
+.progress-bar {
+  height: 1px;
+  background: rgb(0,20,253);
+  width: 0%;
+}
+
+.mybar2{
+    content: " ";
+    border-bottom: solid 4px rgb(0,20,253);
+    position: absolute;
+    padding: 1px 0px;
+    width: 10%;
+    max-width: 100%;
+}
+
+nav > ul{
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    font-size: medium;
+}
+
+nav > ul > li > a{
+    color: white;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+
+nav > ul > li > ul > li{
+    display:none;
+}
+
+nav > ul > li:hover > ul{
+    position: absolute;
+    display:flex;
+    flex-direction: column;
+
+}
+
+nav > ul > li:hover > ul > li{
+    display: block;
+    padding: 2px;    
+    background-color: rgb(0,20,253);
+
+}
+
+.center{
+    display: flex;
+    justify-content: center;
+}
+
+.largeur-700{
+    width: 700px;
+    padding: 0px 100px;
+    border-left: solid 1px rgb(0,20,253);
+    border-right: solid 3px rgb(0,20,253);
+}
+
+
+// scrollable slider, les images sont uniformisees pour respecter le ratio
+div.scroll-container {
+  aspect-ratio: 1900/900;
+  height: 370px;
+  border: solid 2px rgb(0,20,253);
+  overflow-x: hidden;
+  overflow-y: hidden;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: auto;
+}
+
+div.scroll-container:hover {
+  overflow-x: auto;
+}
+
+div.scroll-container > div {
+  aspect-ratio: 1900/900;
+  scroll-snap-align: start;
+}
+
+div.scroll-container > div > img {
+  margin: 10px 20px 10px 20px;
+  aspect-ratio: 1900/900;
+  width: auto;
+  height:350px;
+}
+
+form {
+    width: 100%;
+    max-width: 500px;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+}
+
+input, textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 18px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: #1769aa;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #125487;
+}
+
+.success { color: green; }
+.error { color: red; }
