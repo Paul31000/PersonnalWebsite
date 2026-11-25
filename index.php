@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1>Digital Factory</h1>
             <img class="bandeau-haut" src=<?php echo $package->getUrl('public/build/images/Electric_Blue_Data_Track2.png')?> alt="bandeau-data">
             <div class="h2-header">
-            <h2>La passion du développement.</h2></div>
+            <h2>IT passionate</h2></div>
         </header>
         
         
@@ -229,7 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <p class="error"><?= htmlspecialchars($error) ?></p>
                             <?php endif; ?>
 
-                            <label>Name and surname</label>
+                            <label>Name and nickname</label>
                             <input type="text" name="nom" required>
 
                             <label>Email address</label>
