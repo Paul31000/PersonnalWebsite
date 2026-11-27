@@ -285,6 +285,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="center">
                 <div class="largeur-700">
                     <section id="un-mot-sur-moi">
+                        <img class="image-moi" src="<?php echo $package->getUrl('public/build/images/IMG_1989.jpg')?>" alt="">
                         <h3>One word about me:</h3>
                             <p>I Was graduated as architect in 2012, and worked in some offices well knowed.
                             In 2019, as my experiences in housing developpment were poored, I decided
