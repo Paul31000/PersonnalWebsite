@@ -110,6 +110,7 @@ nav{
 .nav-group{
     position: sticky;
     top: 0px;
+    z-index: 101;
 }
 
 nav > ul{
@@ -133,6 +134,8 @@ nav > ul > li:hover > a{
 
 nav > ul > li > a{
     display: block;
+    position: relative;
+    z-index: 101;
     color: white;
     text-decoration: none;
     padding: 20px 25px;
@@ -359,10 +362,6 @@ body {
 
     h2 {
         font-size: clamp(1rem, 4vw, 1.25rem);
-    }
-
-    .nav-group {
-        z-index: 2;
     }
 
     nav > ul {
